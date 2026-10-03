@@ -137,7 +137,22 @@ $SC restart cbtunnel
 $SC restart crunchbyte
 $SC restart --no-block cbwarm
 sleep 3
+FAIL=""
 for n in ollama shortsite cbtunnel crunchbyte cbwarm; do
-  echo "$n: $($SC is-active $n 2>&1)"
+  S=$($SC is-active $n 2>&1)
+  echo "$n: $S"
+  if [ -z "$CB_DRY" ]; then
+    case $n in
+      cbwarm) [ "$S" = "active" ] || [ "$S" = "activating" ] || FAIL="$FAIL $n" ;;
+      *) [ "$S" = "active" ] || FAIL="$FAIL $n" ;;
+    esac
+  fi
 done
-echo "Done. Check https://crunchbytes.dpdns.org/ in a minute. The model warm-up can take a few minutes."
+echo
+if [ -n "$FAIL" ]; then
+  echo "FAILED, not running:$FAIL"
+  echo "Look at the reason with: journalctl -u NAME -n 20  (replace NAME with one of the names above)"
+  exit 1
+fi
+echo "Ran successfully"
+echo "Check https://crunchbytes.dpdns.org/ in a minute. The model warm-up can take a few minutes."
