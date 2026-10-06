@@ -79,3 +79,5 @@ Do not run with `sh`: the game uses Bash arrays. If the terminal is left in a st
 - Older numbered installers and patches are retained. A higher filename number alone does not prove compatibility with your installation.
 
 When reporting a bug, include the filename, command, OS/architecture, and error text. Remove private information from logs. No guarantee of compatibility with every Pi image or terminal.
+
+Try the included example.png and example.mp4: `python3 cview.py example.png` or `python3 cview.py example.mp4`. Both are original synthetic landscape samples; the video is 4 seconds, 320x180, and has no audio.
