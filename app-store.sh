@@ -3,9 +3,10 @@
 set -eu
 cd -- "$(dirname -- "$0")"
 case "${1:-}" in
-  install) python3 -m py_compile cview.py
+  install) python3 -m py_compile cview.py make_examples.py
     command -v ffmpeg >/dev/null || { echo "Install ffmpeg first: apt install ffmpeg"; exit 1; }
-    command -v ffprobe >/dev/null ;;
+    command -v ffprobe >/dev/null
+    python3 make_examples.py ;;
   run) read -r -p "Image or video path (blank cancels): " media
     [ -n "$media" ] || exit 0
     [ -f "$media" ] || { echo "File not found"; exit 1; }
